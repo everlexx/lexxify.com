@@ -1,0 +1,14 @@
+{
+	"name": "lexxify-waitlist",
+	"version": "0.1.0",
+	"repository": "https://github.com/everlexx/lexxify-waitlist",
+	"license": "UNLICIENSED",
+	"private": true,
+	"scripts": {
+		"tailwind:watch": "npx tailwindcss -i ./src/styles/index.css -o ./src/public/styles/index.css --watch",
+		"tailwind:build": "npx tailwindcss -i ./src/styles/index.css -o ./src/public/styles/index.css"
+	},
+	"devDependencies": {
+		"tailwindcss": "^3.2.4"
+	}
+}
