@@ -6,7 +6,8 @@
 	"private": true,
 	"scripts": {
 		"tailwind:watch": "npx tailwindcss -i ./src/styles/index.css -o ./src/public/styles/index.css --watch",
-		"tailwind:build": "npx tailwindcss -i ./src/styles/index.css -o ./src/public/styles/index.css"
+		"tailwind:build": "npx tailwindcss -i ./src/styles/index.css -o ./src/public/styles/index.css --minify",
+		"build": "yarn tailwind:build && mkdir -p ./docs && cp -r ./src/public/* ./docs"
 	},
 	"devDependencies": {
 		"tailwindcss": "^3.2.4"
