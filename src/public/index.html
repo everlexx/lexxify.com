@@ -95,20 +95,24 @@
 				<div class="flex flex-col mt-8 lg:mt-12">
 					<h2 class="text-text-primary text-[18px] lg:text-[24px] font-medium">Join the waitlist now</h2>
 
-					<form id="waitlist-form" class="flex flex-row items-end mt-4 lg:mt-5">
-						<div class="flex flex-col flex-1">
-							<p class="text-[14px] font-medium text-text-secondary">Your email address</p>
-							<input
-								class="mt-1.5 bg-light-1 border-light-5 border rounded-md py-3 px-4 outline-none w-0 min-w-full text-text-secondary"
-								placeholder="you@example.com"
-								type="email"
-								maxlength="255" />
+					<form id="waitlist-form" class="flex flex-col mt-4 lg:mt-5">
+						<div class="flex flex-row items-end">
+							<div class="flex flex-col flex-1">
+								<p class="text-[14px] font-medium text-text-secondary">Your email address</p>
+								<input
+									class="mt-1.5 bg-light-1 border-light-5 border rounded-md py-3 px-4 outline-none w-0 min-w-full text-text-secondary disabled:opacity-80"
+									placeholder="you@example.com"
+									type="email"
+									maxlength="255" />
+							</div>
+							<button
+								type="submit"
+								class="rounded-md bg-primary-500 border border-primary-500 py-3 px-4 text-text-on-brand ml-3 disabled:opacity-80">
+								Join
+							</button>
 						</div>
-						<button
-							type="submit"
-							class="rounded-md bg-primary-500 border border-primary-500 py-3 px-4 text-text-on-brand ml-3">
-							Join
-						</button>
+
+						<span class="form-status hidden mt-2"></span>
 					</form>
 
 					<p class="mt-3 lg:mt-4 text-text-secondary">
@@ -144,33 +148,43 @@
 		<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 		<script>
-			// TODO: Replace the following with your app's Firebase project configuration
-			// See: https://firebase.google.com/docs/web/learn-more#config-object
-			const firebaseConfig = {
+			firebase.initializeApp({
 				projectId: 'lexxify-wait',
-			};
+			});
 
-			// Initialize Firebase
-			firebase.initializeApp(firebaseConfig);
-
-			// Initialize Cloud Firestore and get a reference to the service
 			const db = firebase.firestore();
 
-			document.querySelector('#waitlist-form').addEventListener('submit', event => {
+			const waitlistForm = document.querySelector('#waitlist-form');
+			const submitButton = document.querySelector('#waitlist-form button[type=submit]');
+			const emailInput = document.querySelector('#waitlist-form input[type=email]');
+			const formStatus = document.querySelector('#waitlist-form .form-status');
+
+			waitlistForm.addEventListener('submit', event => {
 				event.preventDefault();
 
-				const email = document.querySelector('#waitlist-form input[type=email]').value;
+				submitButton.setAttribute('disabled', true);
+				emailInput.setAttribute('disabled', true);
+				formStatus.classList.add('hidden');
 
-				console.log('saving email', email);
+				const email = emailInput.value;
 
 				db.collection('waitlist')
 					.doc('emails')
 					.update({ addresses: firebase.firestore.FieldValue.arrayUnion(email) })
 					.then(() => {
-						console.log('done');
+						formStatus.classList.remove('text-red');
+						formStatus.classList.add('text-green');
+						formStatus.classList.remove('hidden');
+						formStatus.innerHTML = "You're in! We'll send you an email as soon as Lexxify publicly launches!";
 					})
 					.catch(error => {
-						console.error(error);
+						submitButton.setAttribute('disabled', false);
+						emailInput.setAttribute('disabled', false);
+
+						formStatus.classList.remove('text-green');
+						formStatus.classList.add('text-red');
+						formStatus.classList.remove('hidden');
+						formStatus.innerHTML = 'Error occurred!';
 					});
 			});
 		</script>
