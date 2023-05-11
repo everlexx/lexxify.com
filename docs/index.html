@@ -4,29 +4,32 @@
 		<meta charset="utf-8" />
 		<meta http-equiv="x-ua-compatible" content="ie=edge; chrome=1" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-		<title>Lexxify</title>
+		<title>Lexxify Hub</title>
 		<!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'" /> -->
 		<!-- <base href="https://lexxify.com/" /> -->
 
 		<meta
 			name="description"
-			content="On-demand translation services accessible from your smartphone through our Lexxify mobile app" />
+			content="Find and follow content in your desired languages on Lexxify Hub, a multilingual platform that
+					places every language front and center." />
 		<meta property="og:image" content="http://example.com/image.jpg" />
 		<meta property="og:site_name" content="Lexxify" />
-		<meta property="og:title" content="Lexxify waitlist" />
+		<meta property="og:title" content="Lexxify Hub" />
 		<meta
 			property="og:description"
-			content="On-demand translation services accessible from your smartphone through our Lexxify mobile app" />
+			content="Find and follow content in your desired languages on Lexxify Hub, a multilingual platform that
+					places every language front and center." />
 		<meta property="og:type" content="product" />
 		<meta property="og:url" content="https://lexxify.com/" />
 
 		<meta name="twitter:card" content="summary" />
 		<meta name="twitter:site" content="@lexxify" />
 		<meta name="twitter:url" content="https://lexxify.com/" />
-		<meta name="twitter:title" content="Lexxify waitlist" />
+		<meta name="twitter:title" content="Lexxify Hub" />
 		<meta
 			name="twitter:description"
-			content="On-demand translation services accessible from your smartphone through our Lexxify mobile app" />
+			content="Find and follow content in your desired languages on Lexxify Hub, a multilingual platform that
+					places every language front and center." />
 		<meta name="twitter:image" content="/meta/android-chrome-384x384.png" />
 
 		<link rel="apple-touch-icon" sizes="180x180" href="/meta/apple-touch-icon.png" />
@@ -115,49 +118,5 @@
 				<img src="/assets/logo-square.png" alt="Lexxify Hub's logo" class="block lg:hidden w-32 h-32 mt-2" />
 			</div>
 		</div>
-
-		<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-		<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-		<script>
-			firebase.initializeApp({
-				projectId: 'lexxify-wait',
-			});
-
-			const db = firebase.firestore();
-
-			const waitlistForm = document.querySelector('#waitlist-form');
-			const submitButton = document.querySelector('#waitlist-form button[type=submit]');
-			const emailInput = document.querySelector('#waitlist-form input[type=email]');
-			const formStatus = document.querySelector('#waitlist-form .form-status');
-
-			waitlistForm.addEventListener('submit', event => {
-				event.preventDefault();
-
-				submitButton.setAttribute('disabled', true);
-				emailInput.setAttribute('disabled', true);
-				formStatus.classList.add('hidden');
-
-				const email = emailInput.value;
-
-				db.collection('waitlist')
-					.doc('emails')
-					.update({ addresses: firebase.firestore.FieldValue.arrayUnion(email) })
-					.then(() => {
-						formStatus.classList.remove('text-red');
-						formStatus.classList.add('text-green');
-						formStatus.classList.remove('hidden');
-						formStatus.innerHTML = "You're in! We'll send you an email as soon as Lexxify publicly launches!";
-					})
-					.catch(error => {
-						submitButton.setAttribute('disabled', false);
-						emailInput.setAttribute('disabled', false);
-
-						formStatus.classList.remove('text-green');
-						formStatus.classList.add('text-red');
-						formStatus.classList.remove('hidden');
-						formStatus.innerHTML = 'Error occurred!';
-					});
-			});
-		</script>
 	</body>
 </html>
