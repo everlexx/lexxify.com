@@ -1,15 +1,16 @@
 {
-	"name": "lexxify-waitlist",
+	"name": "lexxify.com",
 	"version": "0.1.0",
-	"repository": "https://github.com/everlexx/lexxify-waitlist",
+	"repository": "https://github.com/everlexx/lexxify.com",
 	"license": "UNLICIENSED",
 	"private": true,
 	"scripts": {
 		"tailwind:watch": "npx tailwindcss -i ./src/styles/index.css -o ./src/public/styles/index.css --watch",
 		"tailwind:build": "npx tailwindcss -i ./src/styles/index.css -o ./src/public/styles/index.css --minify",
-		"build": "yarn tailwind:build && mkdir -p ./docs && cp -r ./src/public/* ./docs"
+		"serve": "http-server ./docs -a 0.0.0.0 --port 0 -c -1"
 	},
 	"devDependencies": {
+		"http-server": "^14.1.1",
 		"tailwindcss": "^3.2.4"
 	}
 }
